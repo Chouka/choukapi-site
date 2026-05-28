@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHOUKAPI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink:   #ff2e93;
+    --yellow: #ffd400;
+    --cyan:   #00e5ff;
+    --lime:   #b6ff00;
+    --purple: #8a2be2;
+    --orange: #ff6b00;
+    --ink:    #14081f;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html,body{ height:100%; overflow:hidden; }
+
+  body{
+    font-family:'Fredoka', sans-serif;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255,46,147,.35), transparent 45%),
+      radial-gradient(circle at 80% 30%, rgba(0,229,255,.30), transparent 45%),
+      radial-gradient(circle at 50% 85%, rgba(182,255,0,.28), transparent 50%),
+      var(--ink);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:none;
+    position:relative;
+  }
+
+  /* Grille rétro animée en fond */
+  .grid{
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size:50px 50px;
+    transform:perspective(500px) rotateX(55deg) scale(2);
+    transform-origin:center bottom;
+    animation:gridmove 6s linear infinite;
+    opacity:.5;
+    pointer-events:none;
+  }
+  @keyframes gridmove{ to{ background-position:0 50px; } }
+
+  /* Blobs flottants type "bonbons" */
+  .blob{
+    position:absolute; border-radius:50%;
+    filter:blur(8px); opacity:.55; pointer-events:none;
+    mix-blend-mode:screen;
+    animation:float 9s ease-in-out infinite;
+  }
+  .b1{ width:220px;height:220px; background:var(--pink);   top:8%;  left:10%; }
+  .b2{ width:160px;height:160px; background:var(--cyan);   top:65%; left:78%; animation-delay:-2s;}
+  .b3{ width:130px;height:130px; background:var(--yellow); top:18%; left:80%; animation-delay:-4s;}
+  .b4{ width:180px;height:180px; background:var(--lime);   top:72%; left:14%; animation-delay:-6s;}
+  @keyframes float{
+    0%,100%{ transform:translate(0,0) scale(1); }
+    50%{ transform:translate(20px,-30px) scale(1.12); }
+  }
+
+  /* Bloc central */
+  .stage{ position:relative; z-index:2; text-align:center; padding:2rem; }
+
+  .logo{
+    font-family:'Bungee', cursive;
+    font-size:clamp(3.5rem, 16vw, 12rem);
+    line-height:.9;
+    letter-spacing:.02em;
+    cursor:none;
+    display:inline-flex;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .logo span{
+    display:inline-block;
+    background:linear-gradient(180deg,#fff,#ffe6f4);
+    -webkit-background-clip:text; background-clip:text;
+    color:transparent;
+    text-shadow:
+      4px 4px 0 var(--pink),
+      8px 8px 0 var(--purple),
+      11px 11px 0 rgba(0,0,0,.3);
+    transition:transform .15s ease, text-shadow .15s ease;
+    animation:bob 2.4s ease-in-out infinite;
+  }
+  .logo span:nth-child(odd){ animation-delay:.12s; }
+  @keyframes bob{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+
+  .logo span:hover{
+    transform:translateY(-22px) rotate(-6deg) scale(1.2);
+    text-shadow:
+      4px 4px 0 var(--cyan),
+      8px 8px 0 var(--lime),
+      14px 14px 0 var(--orange);
+  }
+
+  .tagline{
+    margin-top:1.5rem;
+    font-size:clamp(1.2rem, 4vw, 2.4rem);
+    font-weight:600;
+    letter-spacing:.35em;
+    text-transform:uppercase;
+    padding:.6rem 1.4rem;
+    display:inline-block;
+    border:3px solid var(--yellow);
+    border-radius:999px;
+    background:rgba(255,255,255,.05);
+    box-shadow:0 0 0 0 var(--yellow);
+    transition:all .25s ease;
+    cursor:none;
+  }
+  .tagline:hover{
+    background:var(--yellow);
+    color:var(--ink);
+    transform:scale(1.06) rotate(-1.5deg);
+    box-shadow:0 12px 40px rgba(255,212,0,.5);
+  }
+
+  /* Petits "pixels" décoratifs */
+  .pixel{
+    position:absolute; width:18px; height:18px; z-index:1;
+    animation:spin 4s linear infinite, float 7s ease-in-out infinite;
+    pointer-events:none;
+  }
+  .p1{ background:var(--pink);   top:24%; left:24%; }
+  .p2{ background:var(--cyan);   top:30%; right:22%; border-radius:50%; }
+  .p3{ background:var(--lime);   bottom:24%; left:30%; transform:rotate(45deg); }
+  .p4{ background:var(--orange); bottom:28%; right:28%; border-radius:50%;}
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  /* Curseur custom */
+  .cursor{
+    position:fixed; top:0; left:0; width:26px; height:26px;
+    border:3px solid var(--lime); border-radius:50%;
+    pointer-events:none; z-index:99; transform:translate(-50%,-50%);
+    transition:width .15s, height .15s, background .15s, border-color .15s;
+    mix-blend-mode:difference;
+  }
+  .cursor.big{ width:60px; height:60px; background:rgba(182,255,0,.25); border-color:var(--cyan); }
+
+  .footer{
+    position:absolute; bottom:1.2rem; width:100%; text-align:center;
+    font-size:.85rem; letter-spacing:.25em; opacity:.55; z-index:2;
+    text-transform:uppercase;
+  }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <div class="blob b3"></div><div class="blob b4"></div>
+  <div class="pixel p1"></div><div class="pixel p2"></div>
+  <div class="pixel p3"></div><div class="pixel p4"></div>
+
+  <div class="stage">
+    <h1 class="logo" id="logo"></h1>
+  </div>
+
+  <div class="footer">© Choukapi — www.choukapi.com</div>
+
+  <div class="cursor" id="cursor"></div>
+
+<script>
+  // Lettres animées individuellement
+  const word = "CHOUKAPI";
+  const logo = document.getElementById('logo');
+  word.split('').forEach((l,i)=>{
+    const s = document.createElement('span');
+    s.textContent = l;
+    s.style.animationDelay = (i*0.08)+'s';
+    logo.appendChild(s);
+  });
+
+  // Curseur custom
+  const cur = document.getElementById('cursor');
+  document.addEventListener('mousemove', e=>{
+    cur.style.left = e.clientX+'px';
+    cur.style.top  = e.clientY+'px';
+  });
+  document.querySelectorAll('.logo span').forEach(el=>{
+    el.addEventListener('mouseenter', ()=>cur.classList.add('big'));
+    el.addEventListener('mouseleave', ()=>cur.classList.remove('big'));
+  });
+
+  // Parallaxe légère des blobs selon la souris
+  const blobs = document.querySelectorAll('.blob');
+  document.addEventListener('mousemove', e=>{
+    const x = (e.clientX/window.innerWidth - .5);
+    const y = (e.clientY/window.innerHeight - .5);
+    blobs.forEach((b,i)=>{
+      const f = (i+1)*12;
+      b.style.marginLeft = (x*f)+'px';
+      b.style.marginTop  = (y*f)+'px';
+    });
+  });
+</script>
+</body>
+</html>
