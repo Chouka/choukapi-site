@@ -75,7 +75,7 @@
     background:
       radial-gradient(circle at 20% 20%, rgba(255,46,147,.35), transparent 45%),
       radial-gradient(circle at 80% 30%, rgba(0,229,255,.30), transparent 45%),
-      radial-gradient(circle at 50% 85%, rgba(182,255,0,.28), transparent 50%),
+      radial-gradient(ellipse 90% 55% at 50% 92%, rgba(182,255,0,.30), transparent 75%),
       var(--ink);
   }
   /* fondu doux vers la section suivante */
@@ -87,14 +87,13 @@
   .grid{
     position:absolute; inset:0;
     background-image:
-      linear-gradient(rgba(255,255,255,.14) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.14) 1px, transparent 1px);
-    background-size:90px 90px;
-    transform:perspective(600px) rotateX(55deg) scale(2);
+      linear-gradient(90deg, rgba(255,255,255,.16) 1px, transparent 1px);
+    background-size:70px 70px;
+    transform:perspective(800px) rotateX(60deg) scale(1.5);
     transform-origin:center bottom;
     opacity:.7; pointer-events:none;
-    -webkit-mask-image:linear-gradient(to top, #000 35%, transparent 85%);
-            mask-image:linear-gradient(to top, #000 35%, transparent 85%);
+    -webkit-mask-image:linear-gradient(to top, #000 30%, transparent 88%);
+            mask-image:linear-gradient(to top, #000 30%, transparent 88%);
   }
 
   .blob{
